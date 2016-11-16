@@ -3,10 +3,12 @@
 	include("includes/db_connect.php");
 	include("functions/functions.php");
 
+	$message="";
+
 	//this runs when user submits login form
-	if(isset($_POST['submit'])){
-	    $username = $_POST['username'];
-	    $password0 = $_POST['password'];
+	if(isset($_POST['login'])){
+	    $username = $_POST['email'];
+	    $password0 = $_POST['pass'];
 	    //encrypts password
 	    $password = sha1($password0);
 	    
@@ -25,7 +27,7 @@
 
         //user's entries did not match database, look for matching email + pass
         else{
-        	$sql = "SELECT * FROM Users WHERE username='".$email."' AND password='".$password."' LIMIT 1";
+        	$sql = "SELECT * FROM Users WHERE email='".$username."' AND password='".$password."' LIMIT 1";
 		    $result = mysqli_query($connection, $sql);
 
 		    //user successfully logged in, setting variables
@@ -41,10 +43,11 @@
 	        	$message = "Invalid username or password.";
 	        }
         }
-    //once logged in, redirect to homepage
-    if (isset($_SESSION['logged_in'])) {
-    	header("Refresh: 5; url=home.php");
     }
+    //once logged in, redirect to homepage
+    if (isset($_SESSION['logged_in'])){
+    	header("Refresh: 5; url=home.php");
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -58,12 +61,11 @@
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 		<script src="https://use.fontawesome.com/51fbdde8ed.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/styles.css">
+		<link rel="stylesheet" type="text/css" href="css/styles.css"/>
 	</head>
 	<body>
 		<?php
 			include("includes/sub_nav.php");
-
 			include("includes/nav.php"); 
 		?>
 
@@ -78,6 +80,13 @@
 			<h2 class="login_head">Login</h2>
 
 			<div class="login_form">
+				<?php 
+	                if($message){
+	                    echo "<p class='form-message'>";
+	                    echo $message;
+	                    echo "</p>";
+	                }
+	            ?>
 				<form action="" method="POST">
 					<div class="form-group">
 						<label for="email">Username or Email address</label>
@@ -92,11 +101,9 @@
 					<a href="checkout.php?forgot_pass">Forgot Password?</a>
 					<br>
 					<br>
-
 					<button type="submit" name="login" id="submit" class="btn btn-default center-block">Login</button>
 				</form>
 			</div>
-
 			<p class="login_txt">Admin? Log in <a href="login.php">here</a></p>
 		</div>
 
