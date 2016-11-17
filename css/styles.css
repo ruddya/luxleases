@@ -503,6 +503,10 @@ footer
     color: #009cad;
 }
 
+.form-message{
+    color: white;
+}
+
 .about{
     width: 950px;
     max-height: 100%;
