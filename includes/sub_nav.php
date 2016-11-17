@@ -9,16 +9,16 @@
 
 		<div class="sub-nav-links">
 			<?php
-				if (!isset($_SESSION['customer_email'])) {
+				if (!isset($_SESSION['logged_in'])) {
 					
-					echo "<a href='checkout.php' class='sub-nav-a'>Login</a>";
+					echo "<a href='login.php' class='sub-nav-a'>Login</a>";
+					echo "<a href='register.php' class='sub-nav-a'>Register</a>";
 				}
 				else{
 
 					echo "<a href='logout.php' class='sub-nav-a'>Logout</a>";
 				}
 			?>
-			<a href="register.php" class="sub-nav-a">Register</a>
 			<a href="#" class="sub-nav-a">Profile</a>
 			<a href="cart.php" class="sub-nav-a"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> <?php total_price(); ?></a>
 		</div>
